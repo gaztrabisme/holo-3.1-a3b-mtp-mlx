@@ -1,0 +1,9 @@
+holo-3.1-a3b-mtp-mlx
+Copyright 2026 GazTrab
+
+This work is a derivative MLX build (Apache-2.0). It incorporates / builds upon:
+- Hcompany/Holo-3.1-35B-A3B          (H Company)        Apache-2.0
+- Qwen/Qwen3.6-35B-A3B               (Qwen / Alibaba)   Apache-2.0  (base + MTP head)
+- symrex/Holo-3.1-35B-A3B-oQ8        (symrex)           Apache-2.0  (oQ8 quantization)
+- tfjack/Qwen3.6-35B-A3B-oQ8-fp16-mtp (tfjack)          Apache-2.0  (oQ8 MTP MLX conversion)
+Quantization & serving: oMLX / oQ (https://github.com/jundot/omlx)

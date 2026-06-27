@@ -1,0 +1,14 @@
+{
+  "the search box": "{\"x\": 790, \"y\": 41}",
+  "the profile avatar (top-right circle)": "{\"x\": 935, \"y\": 40}",
+  "the 'Profile' menu item in the left sidebar": "{\"x\": 102, \"y\": 157}",
+  "the 'Security' menu item in the left sidebar": "{\"x\": 102, \"y\": 234}",
+  "the 'Billing' menu item in the left sidebar": "{\"x\": 102, \"y\": 304}",
+  "the 'Notifications' menu item in the left sidebar": "{\"x\": 102, \"y\": 364}",
+  "the current password input field": "{\"x\": 371, \"y\": 264}",
+  "the two-factor authentication checkbox": "{\"x\": 243, \"y\": 351}",
+  "the 'Login alerts' toggle switch": "{\"x\": 253, \"y\": 419}",
+  "the Cancel button": "{\"x\": 280, \"y\": 931}",
+  "the Save Changes button": "{\"x\": 412, \"y\": 930}",
+  "the red Delete Account button": "{\"x\": 910, \"y\": 932}"
+}
