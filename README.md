@@ -21,7 +21,11 @@ Grafting a **Multi-Token-Prediction (MTP / nextn) head** onto the 8-bit MLX buil
 
 The ~1.1× (not ~2×, despite 94.8% acceptance) is honest: a 1-layer MTP caps at ~2 tok/cycle, and at batch=1 the 2-position verify pass on this memory-bound MoE isn't much cheaper than two plain passes. MTP earns more on **longer agentic/navigation traces** than on short bbox grounding, where screenshot *prefill* dominates latency.
 
-![synthetic UI used for the grounding spot-check](assets/ui.png)
+### Grounding spot-check
+
+A synthetic 1280×720 settings UI with 12 elements at known positions. Holo was asked to localize each (e.g. *"the red Delete Account button"*); the figure overlays **ground truth** (green rings) against **Holo's predicted click** (red crosshairs). All 12 land on-target; the two visible offsets are the search box (~14 px) and the wide password field (55 px, still inside it). `scripts/make_ui.py` builds the fixture, `scripts/ground_test.py` scores it, `scripts/annotate_ui.py` renders this overlay.
+
+![ground truth vs Holo predicted click points — 12/12 hit, median 6px](assets/ui_annotated.png)
 
 ## Reproduce
 
