@@ -2,7 +2,11 @@
 
 **Goal:** Produce `Holo-3.1-35B-A3B-oQ8-mtp` — the existing 8-bit Holo grounding model with a working MTP (nextn) head so oMLX can do native speculative decoding.
 
-## STATUS: BUILT & VERIFIED (2026-06-27)
+## STATUS: BUILT, VERIFIED & PUBLISHED (2026-06-27)
+
+- **HF model:** https://huggingface.co/GazTrab/Holo-3.1-35B-A3B-oQ8-mtp (public, Apache-2.0)
+- **GitHub (code+docs):** https://github.com/gaztrabisme/holo-3.1-a3b-mtp-mlx (public)
+
 
 Model at `~/.omlx/models/symrex/Holo-3.1-35B-A3B-oQ8-mtp`, served by oMLX as `Holo-3.1-35B-A3B-oQ8-mtp`.
 
@@ -93,4 +97,12 @@ for pure short-coordinate grounding.
   [0,1000] space; sampling jitters clicks and breaks reproducibility. (H Company publishes no official grounding
   sampling table; greedy-for-grounding is standard convention + community notes.)
 - Disable thinking (`chat_template_kwargs.enable_thinking=False`) for direct coordinate output.
-- Greedy also maximizes MTP acceptance → right on both axes. (Navigation/agentic use may want a small temp; grounding does not.)
+- **Two-config model (measured 2026-06-27):** greedy = 12/12 hit, median 3px, deterministic. Instruct preset
+  (temp 0.7 / top_p 0.8 / top_k 20 / min_p 0 / presence_penalty 1.5) = 11/12, median 27px, ±40px jitter — the
+  `presence_penalty` skews the short `{x,y}` numeric output. So: **grounding → greedy temp 0 no penalties**;
+  **agentic/navigation/general → instruct preset** (Qwen3 anti-loop, and where MTP acceptance climbs **>90%**).
+- **CORRECTION:** "greedy maximizes MTP acceptance" is FALSE as a general rule. It holds for low-entropy text
+  (94.8% greedy on JSON), but at temp>0 oMLX uses probabilistic rejection sampling `min(1, p_t/p_d)` which is more
+  lenient than greedy's argmax match → sampling can accept MORE drafts (the >90% finding). Acceptance affects speed
+  only, never output. On grounding the split is harmless: outputs are ~15 tok (prefill-dominated), so greedy's lower
+  acceptance costs no wall-clock, and `generation_config.json` ships the instruct preset with a temp-0 grounding override.

@@ -57,7 +57,16 @@ python scripts/ground_test.py Holo-3.1-35B-A3B-oQ8-mtp
 
 ## Grounding recipe (Holo-3.1)
 
-Single user turn, image + text, output **normalized `[0,1000]` JSON `{x,y}`** (not Holo1's pixel `Click(x,y)`). `temperature=0`, `enable_thinking=False`, enforce shape with `response_format` json-schema. **smart_resize** the screenshot first and scale coords against the dimensions you send. Full example in the [model card](https://huggingface.co/GazTrab/Holo-3.1-35B-A3B-oQ8-mtp).
+Single user turn, image + text, output **normalized `[0,1000]` JSON `{x,y}`** (not Holo1's pixel `Click(x,y)`). `enable_thinking=False`, enforce shape with `response_format` json-schema. **smart_resize** the screenshot first and scale coords against the dimensions you send. Full example in the [model card](https://huggingface.co/GazTrab/Holo-3.1-35B-A3B-oQ8-mtp).
+
+### Sampling is mode-dependent (measured)
+
+| Profile | Grounding accuracy | Use for |
+|---|---|---|
+| **greedy** (`temp=0`, no penalties) | **12/12 hit, median 3 px** | grounding / localization |
+| instruct (`t0.7, top_p0.8, top_k20, min_p0, presence_penalty1.5`) | 11/12, median 27 px, ±40 px jitter | agentic / navigation / general |
+
+`presence_penalty` on a 2-integer `{x,y}` skews coordinates — **use `temperature=0`, no penalties for grounding.** The instruct preset is for long agentic/navigation traces, where MTP actually helps *and* acceptance climbs **>90%** (temperature softens the rejection-sampling threshold). `generation_config.json` defaults to the instruct preset; pass `temperature=0` explicitly when grounding. (`scripts/instruct_test.py` reproduces this table.)
 
 ## Attribution
 
